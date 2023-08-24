@@ -3,8 +3,6 @@ package service;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
 import model.Multa;
 import utils.IDAOMulta;
 import utils.DAOMulta;
