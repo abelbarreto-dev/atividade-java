@@ -8,29 +8,31 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Multa;
 
-public class DAOMulta {
+public class DAOMulta implements IDAOMulta{
     private Connection conexao;
 
     public DAOMulta() throws SQLException {       
         this.conexao = DAOFactory.getConexao();
     }
- 
-    public void adicionaMulta(Multa m) throws SQLException {
+
+    @Override
+    public void adicionaMulta(Multa multa) throws SQLException {
         String sql = "INSERT INTO multa(id_cliente, descricao, valor) VALUES(?, ?, ?)";       
         PreparedStatement stmt;
         
         stmt = this.conexao.prepareStatement(sql);
 
-        stmt.setString(1, String.valueOf(m.getId_cliente()));
-        stmt.setString(2, m.getDescricao());
-        stmt.setString(3, String.valueOf(m.getValor()));
+        stmt.setString(1, String.valueOf(multa.getIdCliente()));
+        stmt.setString(2, multa.getDescricao());
+        stmt.setString(3, String.valueOf(multa.getValor()));
 
         stmt.execute();
         stmt.close();
         
     }
-    
-    public List<Multa> getLista(String id) throws SQLException{
+
+    @Override
+    public List<Multa> getLista(String id) throws SQLException {
         String sql = "SELECT * FROM multa WHERE id_multa like ?";
         PreparedStatement stmt = this.conexao.prepareStatement(sql);
         stmt.setString(1, id);
@@ -42,8 +44,8 @@ public class DAOMulta {
         while(rs.next()) {
             Multa m = new Multa();
 
-            m.setId_multa(Integer.valueOf(rs.getString("id_multa")));
-            m.setId_cliente(Integer.valueOf(rs.getString("id_cliente")));
+            m.setIdMulta(Integer.valueOf(rs.getString("id_multa")));
+            m.setIdCliente(Integer.valueOf(rs.getString("id_cliente")));
             m.setDescricao(rs.getString("descricao"));
             m.setValor(Float.valueOf(rs.getString("valor")));
 
@@ -55,9 +57,9 @@ public class DAOMulta {
 
         return lista;          
     }
-    
 
-    public List<Multa> getListaMultaPorCliente(String id_cliente) throws SQLException{  
+    @Override
+    public List<Multa> getListaMultaPorCliente(String id_cliente) throws SQLException {  
         String sql = "SELECT multa.id_multa, multa.id_cliente, multa.descricao, multa.valor " +
                     "FROM multa " +
                     "INNER JOIN cliente " +
@@ -73,8 +75,8 @@ public class DAOMulta {
         while(rs.next()) {
             Multa m = new Multa();
 
-            m.setId_multa(Integer.valueOf(rs.getString("multa.id_multa")));
-            m.setId_cliente(Integer.valueOf(rs.getString("multa.id_cliente")));
+            m.setIdMulta(Integer.valueOf(rs.getString("multa.id_multa")));
+            m.setIdCliente(Integer.valueOf(rs.getString("multa.id_cliente")));
             m.setDescricao(rs.getString("multa.descricao"));
             m.setValor(Float.valueOf(rs.getString("multa.valor")));
 
@@ -87,6 +89,7 @@ public class DAOMulta {
         return lista;          
     }
 
+    @Override
     public String totalMultaCliente(String id_cliente) throws SQLException {
         String sql = "SELECT SUM(multa.valor) AS totalMulta FROM multa "
                 + "INNER JOIN cliente ON multa.id_cliente = cliente.id_cliente "
@@ -109,6 +112,7 @@ public class DAOMulta {
 
     }
 
+    @Override
     public void remove(int id) throws SQLException {
         String sql = "DELETE FROM multa WHERE id_multa=?";
 
@@ -120,6 +124,7 @@ public class DAOMulta {
         stmt.close();        
     }
 
+    @Override
     public void removeMultas(String id) throws SQLException {
         String sql = "DELETE FROM multa WHERE id_cliente=?";
 

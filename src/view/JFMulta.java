@@ -11,10 +11,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import utils.DAOCliente;
-import utils.BdMulta;
 import model.Cliente;
 import model.Multa;
+import service.IServiceA;
+import service.IServiceD;
+import service.ServiceA;
+import service.ServiceD;
 
 
 /**
@@ -435,53 +437,34 @@ public class JFMulta extends javax.swing.JFrame {
     
     // Método p/ cadastrar um registro no banco de dados.
     private void cadastraRegistro() {
-        // Antes de cadastrar, verifica se os campos foram preenchidos
-        if (verificaDados()) {
-            try {
-                String desc = "Atraso";
+        try {
+            String desc = "Atraso";
 
-                if (jCBDescricao.getSelectedItem().equals("Atraso na devolução")) {
-                    desc = "Atraso";
-                } else if (jCBDescricao.getSelectedItem().equals("Livro danificado")) {
-                    desc = "Estrago";
-                } else if (jCBDescricao.getSelectedItem().equals("Perda do livro")) {
-                    desc = "Perda";
-                }
-
-                Multa m = new Multa();
-
-                m.setId_cliente(Integer.valueOf(jT1IdCliente.getText()));
-                m.setDescricao(desc);
-                m.setValor(Float.valueOf(jT3Valor.getText()));
-
-                BdMulta d = new BdMulta();
-
-                d.adicionaMulta(m);
-
-                JOptionPane.showMessageDialog(rootPane, "Multa registrada com sucesso.");
-                limpaCampos();
-                desabilitaCampos();
-                listaContatosMulta();
-
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(rootPane, "Erro ao registrar multa.");
+            if (jCBDescricao.getSelectedItem().equals("Atraso na devolução")) {
+                desc = "Atraso";
+            } else if (jCBDescricao.getSelectedItem().equals("Livro danificado")) {
+                desc = "Estrago";
+            } else if (jCBDescricao.getSelectedItem().equals("Perda do livro")) {
+                desc = "Perda";
             }
 
-        }
-    }
-    
-    // Método p/ validação do formulário
-    private boolean verificaDados() {
-        if ((!jT1IdCliente.getText().equals("")) && (!jT3Valor.getText().equals(""))) {
-            return true;
-        }
-        JOptionPane.showMessageDialog(rootPane, "Dados imcompletos.");
-        return false;
-    }
-    /* <-CADASTRO---- */ 
+            Multa m = new Multa();
 
-    
-    
+            m.setIdCliente(Integer.valueOf(jT1IdCliente.getText()));
+            m.setDescricao(desc);
+            m.setValor(Float.valueOf(jT3Valor.getText()));
+
+            this.service.adicionaMulta(m);
+
+            JOptionPane.showMessageDialog(rootPane, "Multa registrada com sucesso.");
+            limpaCampos();
+            desabilitaCampos();
+            listaContatosMulta();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Erro ao registrar multa.");
+        }
+    }
     
     /* ----PESQUISA-> */
     // MÉTODOS:          
@@ -493,9 +476,9 @@ public class JFMulta extends javax.swing.JFrame {
     List<Cliente> clientes;  
     
     // Lista a quantidade de resultado, de acordo com o nome passado no campo pesquisa
-    private void listaContatosCliente() throws SQLException {        
-        DAOCliente d = new DAOCliente();
-        clientes = d.getLista("%" + jTPesquisar.getText() + "%"); 
+    private void listaContatosCliente() throws SQLException {
+        String pesquisa = "%" + jTPesquisar.getText() + "%";
+        clientes = this.serviceCliente.getLista(pesquisa); 
         
         // Após pesquisar os contatos, executa o método p/ exibir o resultado na tabela pesquisa
         mostraPesquisaCliente(clientes);
@@ -538,9 +521,8 @@ public class JFMulta extends javax.swing.JFrame {
     List<Multa> multas;
     
     // Lista a quantidade de resultado, de acordo com o nome passado no campo pesquisa
-    private void listaContatosMulta() throws SQLException {         
-        BdMulta d = new BdMulta();
-        multas = d.getListaMultaPorCliente(pegaIdCliente()); 
+    private void listaContatosMulta() throws SQLException {
+        multas = this.service.getListaMultaPorCliente(pegaIdCliente()); 
                 
         // Após pesquisar os registros, executa o método p/ exibir o resultado na tabela pesquisa
         mostraPesquisaMulta(multas);
@@ -551,22 +533,21 @@ public class JFMulta extends javax.swing.JFrame {
     private void mostraPesquisaMulta(List<Multa> multas) throws SQLException {
         // Limpa a tabela sempre que for solicitado uma nova pesquisa
         limpaTabelaMulta();
-        
+    
         if (!multas.isEmpty()) {
             // Linha em branco usada no for, para cada registro é criada uma nova linha
             String[] linha = new String[] {null, null, null, null};
             // P/ cada registro é criada uma nova linha, cada linha recebe os campos do registro
             for (int i = 0; i < multas.size(); i++) {
                 tmMulta.addRow(linha);
-                tmMulta.setValueAt(multas.get(i).getId_multa(), i, 0);
-                tmMulta.setValueAt(multas.get(i).getId_cliente(), i, 1);
+                tmMulta.setValueAt(multas.get(i).getIdMulta(), i, 0);
+                tmMulta.setValueAt(multas.get(i).getIdCliente(), i, 1);
                 tmMulta.setValueAt(multas.get(i).getDescricao(), i, 2);
                 tmMulta.setValueAt(multas.get(i).getValor(), i, 3);
             } 
             // Valor Multa Total
             // Recebe o valor total das multas
-            BdMulta m = new BdMulta(); 
-            String valotTotal = m.totalMultaCliente(pegaIdCliente());
+            String valotTotal = this.service.totalMultaCliente(pegaIdCliente());
             //Exibe o valor total da soma das multas no campo "Dívida total do cliente: "
             jT4ValorTotal.setText(valotTotal);
         } else {
@@ -624,9 +605,8 @@ public class JFMulta extends javax.swing.JFrame {
 
             // Se a confirmação for SIM
             if (resp == JOptionPane.YES_NO_OPTION) {
-                // Remove o registro, usando como parâmetro, o id da linha selecionada                
-                BdMulta d = new BdMulta();
-                d.remove(pegaIdMulta());
+                // Remove o registro, usando como parâmetro, o id da linha selecionada
+                this.service.remove(pegaIdMulta());
 
                 JOptionPane.showMessageDialog(rootPane, "Registro excluido com sucesso.");
                 limpaCampos();      
@@ -656,9 +636,8 @@ public class JFMulta extends javax.swing.JFrame {
 
                 // Se a confirmação for SIM
                 if (resp == JOptionPane.YES_NO_OPTION) {
-                    // Remove o registro, usando como parâmetro, o id da linha selecionada                
-                    BdMulta d = new BdMulta();
-                    d.removeMultas(pegaIdCliente());
+                    // Remove o registro, usando como parâmetro, o id da linha selecionada
+                    this.service.removeMultas(pegaIdCliente());
 
                     JOptionPane.showMessageDialog(rootPane, "Pendência sanada com sucesso.");
                     limpaCampos();
@@ -702,6 +681,9 @@ public class JFMulta extends javax.swing.JFrame {
         jT3Valor.setText(valor);
         jT1IdCliente.setText(id);
     }
+
+    private IServiceD service = new ServiceD();
+    private IServiceA serviceCliente = new ServiceA();
     
     /* <-OUTROS---- */
      
@@ -709,7 +691,33 @@ public class JFMulta extends javax.swing.JFrame {
     
     
     /**
-     * @param args the command line arguments
+     * @param args the command line argumentstry {
+            String desc = "Atraso";
+
+            if (jCBDescricao.getSelectedItem().equals("Atraso na devolução")) {
+                desc = "Atraso";
+            } else if (jCBDescricao.getSelectedItem().equals("Livro danificado")) {
+                desc = "Estrago";
+            } else if (jCBDescricao.getSelectedItem().equals("Perda do livro")) {
+                desc = "Perda";
+            }
+
+            Multa m = new Multa();
+
+            m.setIdCliente(Integer.valueOf(jT1IdCliente.getText()));
+            m.setDescricao(desc);
+            m.setValor(Float.valueOf(jT3Valor.getText()));
+
+            this.service.adicionaMulta(m);
+
+            JOptionPane.showMessageDialog(rootPane, "Multa registrada com sucesso.");
+            limpaCampos();
+            desabilitaCampos();
+            listaContatosMulta();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Erro ao registrar multa.");
+        }
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

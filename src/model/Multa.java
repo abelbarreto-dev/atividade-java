@@ -10,14 +10,14 @@ package model;
  * @author paulojp
  */
 public class Multa {
-    private int id_multa;
-    private int id_cliente;
+    private int idMulta;
+    private int idCliente;
     private String descricao;
     private float valor;
 
-    public Multa(int id_multa, int id_emprestimo, String descricao, float valor, String pagamento) {
-        this.id_multa = id_multa;
-        this.id_cliente = id_emprestimo;
+    public Multa(int idMulta, int idEmprestimo, String descricao, float valor, String pagamento) {
+        this.idMulta = idMulta;
+        this.idCliente = idEmprestimo;
         this.descricao = descricao;
         this.valor = valor;
     }
@@ -25,20 +25,20 @@ public class Multa {
     public Multa() {
     }
 
-    public int getId_multa() {
-        return id_multa;
+    public int getIdMulta() {
+        return idMulta;
     }
 
-    public void setId_multa(int id_multa) {
-        this.id_multa = id_multa;
+    public void setIdMulta(int idMulta) {
+        this.idMulta = idMulta;
     }
 
-    public int getId_cliente() {
-        return id_cliente;
+    public int getIdCliente() {
+        return idCliente;
     }
 
-    public void setId_cliente(int id_cliente) {
-        this.id_cliente = id_cliente;
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
     }
 
     public String getDescricao() {
