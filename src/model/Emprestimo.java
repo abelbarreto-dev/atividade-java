@@ -1,71 +1,62 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
-/**
- *
- * @author paulojp
- */
 public class Emprestimo {
     
-    private int id_emprestimo;
-    private int id_cliente;
-    private int id_livro;
-    private String data_emprestimo;
-    private String data_devolucao;
+    private int idEmprestimo;
+    private int idCliente;
+    private int idLivro;
+    private String dataEmprestimo;
+    private String dataDevolucao;
 
     public Emprestimo() {
     }   
 
-    public Emprestimo(int id_emprestimo, int id_cliente, int id_livro, String data_emprestimo, String data_devolucao) {
-        this.id_emprestimo = id_emprestimo;
-        this.id_cliente = id_cliente;
-        this.id_livro = id_livro;
-        this.data_emprestimo = data_emprestimo;
-        this.data_devolucao = data_devolucao;
+    public Emprestimo(int idEmprestimo, int idCliente, int idLivro, String dataEmprestimo, String dataDevolucao) {
+        this.idEmprestimo = idEmprestimo;
+        this.idCliente = idCliente;
+        this.idLivro = idLivro;
+        this.dataEmprestimo = dataEmprestimo;
+        this.dataDevolucao = dataDevolucao;
     }
 
-    public int getId_emprestimo() {
-        return id_emprestimo;
+    public int getIdEmprestimo() {
+        return idEmprestimo;
     }
 
-    public void setId_emprestimo(int id_emprestimo) {
-        this.id_emprestimo = id_emprestimo;
+    public void setIdEmprestimo(int idEmprestimo) {
+        this.idEmprestimo = idEmprestimo;
     }
 
-    public int getId_cliente() {
-        return id_cliente;
+    public int getIdCliente() {
+        return idCliente;
     }
 
-    public void setId_cliente(int id_cliente) {
-        this.id_cliente = id_cliente;
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
     }
 
-    public int getId_livro() {
-        return id_livro;
+    public int getIdLivro() {
+        return idLivro;
     }
 
-    public void setId_livro(int id_livro) {
-        this.id_livro = id_livro;
+    public void setIdLivro(int idLivro) {
+        this.idLivro = idLivro;
     }
 
-    public String getData_emprestimo() {
-        return data_emprestimo;
+    public String getDataEmprestimo() {
+        return dataEmprestimo;
     }
 
-    public void setData_emprestimo(String data_emprestimo) {
-        this.data_emprestimo = data_emprestimo;
+    public void setDataEmprestimo(String dataEmprestimo) {
+        this.dataEmprestimo = dataEmprestimo;
     }
 
-    public String getData_devolucao() {
-        return data_devolucao;
+    public String getDataDevolucao() {
+        return dataDevolucao;
     }
 
-    public void setData_devolucao(String data_devolucao) {
-        this.data_devolucao = data_devolucao;
+    public void setDataDevolucao(String dataDevolucao) {
+        this.dataDevolucao = dataDevolucao;
     }
     
 }

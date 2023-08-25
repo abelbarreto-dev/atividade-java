@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
 import java.sql.SQLException;
@@ -18,12 +13,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import utils.DAOCliente;
 import utils.BdEmprestimo;
 import utils.BdLivro;
 import model.Cliente;
 import model.Emprestimo;
 import model.Livro;
+import service.IServiceB;
+import service.ServiceB;
 
 
 /**
@@ -36,22 +32,16 @@ public class JFEmprestimo extends javax.swing.JFrame {
     private JFPrincipal telaPrincipal;
     boolean verifica = false;
     
-    /**
-     * Creates new form Cliente
-     */
+
     public JFEmprestimo() {
         initComponents();
         verifica = true;
-        // Desabilita os campos ao iniciar a janela
         desabilitaCamposEmprestimo();   
         
-        // Mostra a data atual como data do empréstimo        
         dataEmprestimo();
-        // Mostra a data atual como data do empréstimo        
         mostraDataDevolucao();
     }
     
-    // Construtor que recebe a instância da tela principal
     JFEmprestimo(JFPrincipal telaPrincipal) {
         
         this();
@@ -547,14 +537,12 @@ public class JFEmprestimo extends javax.swing.JFrame {
                         try {
                             Emprestimo e = new Emprestimo();
 
-                            e.setId_cliente(Integer.valueOf(jT1IdCliente.getText()));
-                            e.setId_livro(Integer.valueOf(jT2IdLivro.getText()));
-                            e.setData_emprestimo(salvaDataEmprestimo());
-                            e.setData_devolucao(salvaDataDevolucao());
+                            e.setIdCliente(Integer.valueOf(jT1IdCliente.getText()));
+                            e.setIdLivro(Integer.valueOf(jT2IdLivro.getText()));
+                            e.setDataEmprestimo(salvaDataEmprestimo());
+                            e.setDataDevolucao(salvaDataDevolucao());
 
-                            d = new BdEmprestimo();
-
-                            d.adicionaEmprestimo(e);
+                            this.service.adicionaEmprestimo(e);
 
                             alteraDisponibilidade("0");
 
@@ -703,8 +691,7 @@ public class JFEmprestimo extends javax.swing.JFrame {
     
     // Lista a quantidade de resultado, de acordo com o nome passado no campo pesquisa
     private void listaContatosCliente() throws SQLException {        
-        DAOCliente d = new DAOCliente();
-        clientes = d.getLista("%" + jTPesquisar.getText() + "%"); 
+        clientes = service.getLista("%" + jTPesquisar.getText() + "%"); 
         
         // Após pesquisar os contatos, executa o método p/ exibir o resultado na tabela pesquisa
         mostraPesquisaCliente(clientes);
@@ -748,8 +735,7 @@ public class JFEmprestimo extends javax.swing.JFrame {
     
     // Lista a quantidade de resultado, de acordo com o nome passado no campo pesquisa
     private void listaContatosEmprestimo() throws SQLException { 
-        BdEmprestimo d = new BdEmprestimo();
-        emprestimos = d.getListaPorCliente(pegaIdCliente()); 
+        emprestimos = service.getListaPorCliente(pegaIdCliente()); 
         
         // Após pesquisar os contatos, executa o método p/ exibir o resultado na tabela pesquisa
         mostraPesquisaEmprestimo(emprestimos);
@@ -853,8 +839,7 @@ public class JFEmprestimo extends javax.swing.JFrame {
                 // Recebe o ID da linha selecionada
                 int id = (int) jTableEmprestimo.getValueAt(linhaSelecionada, 0);
                 // Remove o registro, usando como parâmetro, o id da linha selecionada                
-                BdEmprestimo d = new BdEmprestimo();
-                d.remove(id);
+                service.remove(id);
 
                 JOptionPane.showMessageDialog(rootPane, "Registro excluido com sucesso.");
                 alteraDisponibilidade("1");
@@ -877,13 +862,12 @@ public class JFEmprestimo extends javax.swing.JFrame {
     private void alteraDisponibilidade(String status) throws SQLException {
         if ((jTableCliente.getSelectedRow() != -1) || (jTableLivro.getSelectedRow() != -1)) {  
                 Livro l = new Livro();
-                BdLivro d = new BdLivro();             
                 
                 // Recebe o id do livro, que está sendo exibido no formulário
                 l.setId(Integer.valueOf(pegaIdLivro()));
                 l.setDisponibilidade(status);          
                        
-                d.alteraDisponibilidadeLivro(l);           
+                serviceLivro.alteraDisponibilidadeLivro(l);           
         } else {
             JOptionPane.showMessageDialog(rootPane, "Livro não selecionado.");
         }
@@ -920,8 +904,7 @@ public class JFEmprestimo extends javax.swing.JFrame {
             // Recebe o ID da linha selecionada
             int id = (int) jTableEmprestimo.getValueAt(linhaSelecionada, 0);
             // Remove o registro, usando como parâmetro, o id da linha selecionada                
-            BdEmprestimo d = new BdEmprestimo();
-            d.remove(id);         
+            service.remove(id);         
             
             if (diferencaData() > 0) {
                 passaValor(String.valueOf(diferencaData()));
@@ -1028,6 +1011,8 @@ public class JFEmprestimo extends javax.swing.JFrame {
         });
     }    
 
+    IServiceB service = new ServiceB();
+    IServiceC serviceLivro = new ServiceC();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bGPesquisa;
