@@ -1,18 +1,19 @@
-package service;
+package controllers;
 
-import java.sql.SQLException;
-import java.util.List;
+import controllers.IServiceCliente;
+import java.sql.SQLExc
 
+import dao.DAOCliente;
+import dao.IDAOCliente;
 import model.Cliente;
-import utils.DAOCliente;
-import utils.IDAOCliente;
+import dao.IDAOCliente;
 
-public class ServiceA implements IServiceA {
+public class ServiceCliente implements IServiceCliente {
     // Cliente
 
     private IDAOCliente daoCliente = new DAOCliente();
 
-    public ServiceA() throws SQLException
+    public ServiceCliente() throws SQLException
     {
         super();
     }

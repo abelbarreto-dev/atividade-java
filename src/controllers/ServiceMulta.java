@@ -1,13 +1,13 @@
-package service;
+package controllers;
 
 import java.sql.SQLException;
 import java.util.List;
 
 import model.Multa;
-import utils.IDAOMulta;
-import utils.DAOMulta;
+import dao.IDAOMulta;
+import dao.DAOMulta;
 
-public class ServiceD implements IServiceD {
+public class ServiceMulta implements IServiceMulta {
 
     @Override
     public void adicionaMulta(Multa multa) throws SQLException {

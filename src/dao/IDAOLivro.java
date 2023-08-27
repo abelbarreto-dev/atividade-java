@@ -1,11 +1,11 @@
-package service;
+package dao;
 
 import java.sql.SQLException;
 import java.util.List;
 
 import model.Livro;
 
-public interface IServiceC {
+public interface IDAOLivro {
     public abstract void adicionaLivro(Livro livro) throws SQLException;
     public abstract List<Livro> getLista(String exemplar) throws SQLException;
     public abstract void altera(Livro livro) throws SQLException;

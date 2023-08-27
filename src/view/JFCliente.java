@@ -9,9 +9,10 @@ import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
+import controllers.IServiceA;
+import controllers.ServiceLivro;
 import model.Cliente;
-import service.IServiceA;
-import service.ServiceA;
 
 
 /**
@@ -645,7 +646,7 @@ public class JFCliente extends javax.swing.JFrame {
     }    
 
 
-    IServiceA service = new ServiceA();
+    IServiceA service = new ServiceCliente();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAlterar;
