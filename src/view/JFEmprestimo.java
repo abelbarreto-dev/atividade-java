@@ -13,13 +13,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import utils.BdEmprestimo;
-import utils.BdLivro;
+
+import controllers.IServiceEmprestimo;
+import controllers.ServiceEmprestimo;
+import dao.BdEmprestimo;
+import dao.BdLivro;
 import model.Cliente;
 import model.Emprestimo;
 import model.Livro;
-import service.IServiceB;
-import service.ServiceB;
 
 
 /**
@@ -1011,8 +1012,8 @@ public class JFEmprestimo extends javax.swing.JFrame {
         });
     }    
 
-    IServiceB service = new ServiceB();
-    IServiceC serviceLivro = new ServiceC();
+    IServiceEmprestimo service = new ServiceEmprestimo();
+    IServiceLivro serviceLivro = new ServiceLivro();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bGPesquisa;

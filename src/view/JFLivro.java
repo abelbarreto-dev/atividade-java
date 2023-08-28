@@ -9,9 +9,10 @@ import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
+import controllers.IServiceLivro;
+import controllers.ServiceLivro;
 import model.Livro;
-import service.IServiceC;
-import service.ServiceC;
 
 
 /**
@@ -607,7 +608,7 @@ public class JFLivro extends javax.swing.JFrame {
         });
     }
 
-    IServiceC service = new ServiceC();
+    IServiceLivro service = new ServiceLivro();
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

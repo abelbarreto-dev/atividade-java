@@ -1,16 +1,16 @@
-package service;
+package controllers;
 
 import java.sql.SQLException;
 import java.util.List;
 
 import model.Livro;
-import utils.DAOLivro;
-import utils.IDAOLivro;
+import dao.DAOLivro;
+import dao.IDAOLivro;
 
-public class ServiceC implements IServiceC{
+public class ServiceLivro implements IServiceLivro{
     private IDAOLivro daoLivro = new DAOLivro();
 
-    public ServiceC() throws SQLException
+    public ServiceLivro() throws SQLException
     {
         super();
     }

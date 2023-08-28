@@ -11,12 +11,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
+import controllers.IServiceA;
+import controllers.IServiceMulta;
+import controllers.ServiceLivro;
+import controllers.ServiceMulta;
 import model.Cliente;
 import model.Multa;
-import service.IServiceA;
-import service.IServiceD;
-import service.ServiceA;
-import service.ServiceD;
 
 
 /**
@@ -682,8 +683,8 @@ public class JFMulta extends javax.swing.JFrame {
         jT1IdCliente.setText(id);
     }
 
-    private IServiceD service = new ServiceD();
-    private IServiceA serviceCliente = new ServiceA();
+    private IServiceMulta service = new ServiceMulta();
+    private IServiceA serviceCliente = new ServiceCliente();
     
     /* <-OUTROS---- */
      

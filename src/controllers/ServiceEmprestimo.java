@@ -1,16 +1,16 @@
-package service;
+package controllers;
 
 import java.sql.SQLException;
 import java.util.List;
 
+import dao.DAOEmprestimo;
+import dao.IDAOEmprestimo;
 import model.Emprestimo;
-import utils.DAOEmprestimo;
-import utils.IDAOEmprestimo;
  
-public class ServiceB implements IServiceB {
+public class ServiceEmprestimo implements IServiceEmprestimo {
     private IDAOEmprestimo daoEmprestimo = new DAOEmprestimo();
 
-    public ServiceB() throws SQLException {
+    public ServiceEmprestimo() throws SQLException {
         super();
     }
 
