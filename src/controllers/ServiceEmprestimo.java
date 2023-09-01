@@ -39,15 +39,6 @@ public class ServiceEmprestimo implements IServiceEmprestimo {
     }
 
     @Override
-    public void altera(Emprestimo emprestimo) throws SQLException {
-        if (!this.verificaDados(emprestimo)) {
-            throw new SQLException("Erro ao alterar emprestimo.");
-        }
-
-        this.daoEmprestimo.altera(emprestimo);
-    }
-
-    @Override
     public void remove(int id) throws SQLException {
         this.daoEmprestimo.remove(id);
     }
