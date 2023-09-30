@@ -9,6 +9,12 @@ import dao.DAOMulta;
 
 public class ServiceMulta implements IServiceMulta {
 
+    private IDAOMulta daoMulta = new DAOMulta();
+
+    public ServiceMulta() throws SQLException {
+        super();
+    }
+
     @Override
     public void adicionaMulta(Multa multa) throws SQLException {
         if (!this.verificaDados(multa))
@@ -56,5 +62,4 @@ public class ServiceMulta implements IServiceMulta {
         return true;
     }
 
-    private IDAOMulta daoMulta = new DAOMulta();
 }

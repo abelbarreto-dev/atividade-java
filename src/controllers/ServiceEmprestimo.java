@@ -8,6 +8,7 @@ import dao.IDAOEmprestimo;
 import model.Emprestimo;
  
 public class ServiceEmprestimo implements IServiceEmprestimo {
+
     private IDAOEmprestimo daoEmprestimo = new DAOEmprestimo();
 
     public ServiceEmprestimo() throws SQLException {
@@ -44,13 +45,14 @@ public class ServiceEmprestimo implements IServiceEmprestimo {
     }
 
     private boolean verificaDados(Emprestimo emprestimo) {
-        if (emprestimo.getIdCliente() == null ||
-        emprestimo.getIdLivro() == null ||
-        emprestimo.getDataEmprestimo.equals("") ||
-        emprestimo.getDataDevolucao.equals("")) {
+        if (emprestimo.getIdCliente() < 0 ||
+        emprestimo.getIdLivro() < 0 ||
+        emprestimo.getDataEmprestimo().equals("") ||
+        emprestimo.getDataDevolucao().equals("")) {
             return false;
         }
 
         return true;
     }
+    
 }

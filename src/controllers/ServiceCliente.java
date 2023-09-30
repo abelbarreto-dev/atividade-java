@@ -1,12 +1,11 @@
 package controllers;
 
-import controllers.IServiceCliente;
-import java.sql.SQLExc
+import java.sql.SQLException;
+import java.util.List;
 
 import dao.DAOCliente;
 import dao.IDAOCliente;
 import model.Cliente;
-import dao.IDAOCliente;
 
 public class ServiceCliente implements IServiceCliente {
     // Cliente
@@ -41,6 +40,7 @@ public class ServiceCliente implements IServiceCliente {
         this.daoCliente.adicionaCliente(cliente);
     }
 
+    @Override
     public List<Cliente> getLista(String nome) throws SQLException
     {
         return this.daoCliente.getLista(nome);

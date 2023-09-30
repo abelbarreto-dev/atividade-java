@@ -10,8 +10,8 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-import controllers.IServiceA;
-import controllers.ServiceLivro;
+import controllers.IServiceCliente;
+import controllers.ServiceCliente;
 import model.Cliente;
 
 
@@ -646,7 +646,7 @@ public class JFCliente extends javax.swing.JFrame {
     }    
 
 
-    IServiceA service = new ServiceCliente();
+    IServiceCliente service = new ServiceCliente();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAlterar;

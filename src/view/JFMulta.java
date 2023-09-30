@@ -7,14 +7,12 @@ package view;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-import controllers.IServiceA;
+import controllers.IServiceCliente;
+import controllers.ServiceCliente;
 import controllers.IServiceMulta;
-import controllers.ServiceLivro;
 import controllers.ServiceMulta;
 import model.Cliente;
 import model.Multa;
@@ -46,7 +44,7 @@ public class JFMulta extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        bGDescricao = new javax.swing.ButtonGroup();
+        new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -684,7 +682,7 @@ public class JFMulta extends javax.swing.JFrame {
     }
 
     private IServiceMulta service = new ServiceMulta();
-    private IServiceA serviceCliente = new ServiceCliente();
+    private IServiceCliente serviceCliente = new ServiceCliente();
     
     /* <-OUTROS---- */
      
@@ -768,8 +766,6 @@ public class JFMulta extends javax.swing.JFrame {
     }    
 
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup bGDescricao;
     private javax.swing.JButton jBExcluir;
     private javax.swing.JButton jBNovo;
     private javax.swing.JButton jBPagar;

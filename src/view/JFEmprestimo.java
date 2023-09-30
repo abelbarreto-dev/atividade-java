@@ -1,12 +1,10 @@
 package view;
 
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -14,10 +12,12 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+import controllers.IServiceCliente;
 import controllers.IServiceEmprestimo;
+import controllers.IServiceLivro;
+import controllers.ServiceCliente;
 import controllers.ServiceEmprestimo;
-import dao.BdEmprestimo;
-import dao.BdLivro;
+import controllers.ServiceLivro;
 import model.Cliente;
 import model.Emprestimo;
 import model.Livro;
@@ -533,7 +533,7 @@ public class JFEmprestimo extends javax.swing.JFrame {
             // Antes de cadastrar, verifica se os campos foram preenchidos
             if (verificaDados()) {
                 if (verificaDisponibilidadeLivro()) {
-                    BdEmprestimo d = new BdEmprestimo();
+                    IServiceEmprestimo d = new ServiceEmprestimo();
                     if (!d.verificaMultaCliente(pegaIdCliente())) {
                         try {
                             Emprestimo e = new Emprestimo();
@@ -607,7 +607,7 @@ public class JFEmprestimo extends javax.swing.JFrame {
         Date data = new Date();  
         
         SimpleDateFormat formataData = new SimpleDateFormat("dd/MM/yyyy");  
-        String s = formataData.format( data ); 
+        // String s = formataData.format( data ); 
         
         jT3DataEmprestimo.setText(formataData.format(data));      
     }   
@@ -691,8 +691,12 @@ public class JFEmprestimo extends javax.swing.JFrame {
     List<Cliente> clientes;  
     
     // Lista a quantidade de resultado, de acordo com o nome passado no campo pesquisa
-    private void listaContatosCliente() throws SQLException {        
-        clientes = service.getLista("%" + jTPesquisar.getText() + "%"); 
+    private void listaContatosCliente() throws SQLException {
+        try {
+            clientes = serviceCliente.getLista("%" + jTPesquisar.getText() + "%"); 
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Erro.");
+        }
         
         // Após pesquisar os contatos, executa o método p/ exibir o resultado na tabela pesquisa
         mostraPesquisaCliente(clientes);
@@ -736,7 +740,11 @@ public class JFEmprestimo extends javax.swing.JFrame {
     
     // Lista a quantidade de resultado, de acordo com o nome passado no campo pesquisa
     private void listaContatosEmprestimo() throws SQLException { 
-        emprestimos = service.getListaPorCliente(pegaIdCliente()); 
+        try {
+            emprestimos = service.getListaPorCliente(pegaIdCliente());   
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Erro ao obter lista de empréstimos.");
+        }
         
         // Após pesquisar os contatos, executa o método p/ exibir o resultado na tabela pesquisa
         mostraPesquisaEmprestimo(emprestimos);
@@ -755,11 +763,11 @@ public class JFEmprestimo extends javax.swing.JFrame {
             // P/ cada registro é criada uma nova linha, cada linha recebe os campos do registro
             for (int i = 0; i < emprestimos.size(); i++) {
                 tmEmprestimo.addRow(linha);
-                tmEmprestimo.setValueAt(emprestimos.get(i).getId_emprestimo(), i, 0);
-                tmEmprestimo.setValueAt(emprestimos.get(i).getId_cliente(), i, 1);
-                tmEmprestimo.setValueAt(emprestimos.get(i).getId_livro(), i, 2);
-                tmEmprestimo.setValueAt(emprestimos.get(i).getData_emprestimo(), i, 3);
-                tmEmprestimo.setValueAt(emprestimos.get(i).getData_devolucao(), i, 4);              
+                tmEmprestimo.setValueAt(emprestimos.get(i).getIdEmprestimo(), i, 0);
+                tmEmprestimo.setValueAt(emprestimos.get(i).getIdCliente(), i, 1);
+                tmEmprestimo.setValueAt(emprestimos.get(i).getIdLivro(), i, 2);
+                tmEmprestimo.setValueAt(emprestimos.get(i).getDataEmprestimo(), i, 3);
+                tmEmprestimo.setValueAt(emprestimos.get(i).getDataDevolucao(), i, 4);              
             }            
         }
     } 
@@ -780,7 +788,7 @@ public class JFEmprestimo extends javax.swing.JFrame {
     
     // Lista a quantidade de resultado, de acordo com o nome passado no campo pesquisa
     private void listaContatosLivro() throws SQLException {
-        BdLivro d = new BdLivro();
+        IServiceLivro d = new ServiceLivro();
         livros = d.getLista("%" + jTPesquisar.getText() + "%"); 
         
         // Após pesquisar os contatos, executa o método p/ exibir o resultado na tabela pesquisa
@@ -839,8 +847,13 @@ public class JFEmprestimo extends javax.swing.JFrame {
                 int linhaSelecionada = jTableEmprestimo.getSelectedRow();
                 // Recebe o ID da linha selecionada
                 int id = (int) jTableEmprestimo.getValueAt(linhaSelecionada, 0);
-                // Remove o registro, usando como parâmetro, o id da linha selecionada                
-                service.remove(id);
+                // Remove o registro, usando como parâmetro, o id da linha selecionada 
+                try {
+                    service.remove(id);
+                }
+                catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(rootPane, "Erro ao excluir empréstimo.");
+                }
 
                 JOptionPane.showMessageDialog(rootPane, "Registro excluido com sucesso.");
                 alteraDisponibilidade("1");
@@ -867,8 +880,12 @@ public class JFEmprestimo extends javax.swing.JFrame {
                 // Recebe o id do livro, que está sendo exibido no formulário
                 l.setId(Integer.valueOf(pegaIdLivro()));
                 l.setDisponibilidade(status);          
-                       
-                serviceLivro.alteraDisponibilidadeLivro(l);           
+                
+                try {
+                    serviceLivro.alteraDisponibilidadeLivro(l);
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(rootPane, "Erro.");
+                }           
         } else {
             JOptionPane.showMessageDialog(rootPane, "Livro não selecionado.");
         }
@@ -904,8 +921,12 @@ public class JFEmprestimo extends javax.swing.JFrame {
             int linhaSelecionada = jTableEmprestimo.getSelectedRow();
             // Recebe o ID da linha selecionada
             int id = (int) jTableEmprestimo.getValueAt(linhaSelecionada, 0);
-            // Remove o registro, usando como parâmetro, o id da linha selecionada                
-            service.remove(id);         
+            // Remove o registro, usando como parâmetro, o id da linha selecionada
+            try {
+                service.remove(id);
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(rootPane, "Erro ao remover empréstimo.");
+            }
             
             if (diferencaData() > 0) {
                 passaValor(String.valueOf(diferencaData()));
@@ -1014,6 +1035,7 @@ public class JFEmprestimo extends javax.swing.JFrame {
 
     IServiceEmprestimo service = new ServiceEmprestimo();
     IServiceLivro serviceLivro = new ServiceLivro();
+    IServiceCliente serviceCliente = new ServiceCliente();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bGPesquisa;

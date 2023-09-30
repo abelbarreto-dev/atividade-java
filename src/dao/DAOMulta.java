@@ -10,7 +10,8 @@ import java.util.List;
 import connection.DAOFactory;
 import model.Multa;
 
-public class DAOMulta implements IDAOMulta{
+public class DAOMulta implements IDAOMulta {
+
     private Connection conexao;
 
     public DAOMulta() throws SQLException {       
@@ -135,6 +136,7 @@ public class DAOMulta implements IDAOMulta{
         stmt.setString(1, id);
 
         stmt.execute();
-        stmt.close();        
+        stmt.close();
     }
+    
 }

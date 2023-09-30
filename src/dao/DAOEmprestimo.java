@@ -114,6 +114,7 @@ public class DAOEmprestimo implements IDAOEmprestimo {
         ResultSet rs = null;
 
         try {
+            
             String sql = "SELECT COUNT(multa.id_cliente) AS quantMulta" +
                         " FROM multa" +
                         " WHERE id_cliente = ?;";
@@ -137,10 +138,15 @@ public class DAOEmprestimo implements IDAOEmprestimo {
             return false;
 
         } catch (SQLException e) {
+
             System.out.println(e.getMessage());
+            return false;
+
         } finally {
+
             if (stmt != null) {stmt.close();}
             if (rs != null) {rs.close();}
+
         }
     }
     
