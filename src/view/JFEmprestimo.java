@@ -35,6 +35,14 @@ public class JFEmprestimo extends javax.swing.JFrame {
     
 
     public JFEmprestimo() {
+        try {
+            service = new ServiceEmprestimo();
+            serviceLivro = new ServiceLivro();
+            serviceCliente = new ServiceCliente();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
         initComponents();
         verifica = true;
         desabilitaCamposEmprestimo();   
@@ -1033,9 +1041,9 @@ public class JFEmprestimo extends javax.swing.JFrame {
         });
     }    
 
-    IServiceEmprestimo service = new ServiceEmprestimo();
-    IServiceLivro serviceLivro = new ServiceLivro();
-    IServiceCliente serviceCliente = new ServiceCliente();
+    IServiceEmprestimo service;
+    IServiceLivro serviceLivro;
+    IServiceCliente serviceCliente;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bGPesquisa;

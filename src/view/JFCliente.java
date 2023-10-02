@@ -29,7 +29,13 @@ public class JFCliente extends javax.swing.JFrame {
      */
     public JFCliente() {
         initComponents();
-        
+
+        try {
+            service = new ServiceCliente();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
         // Desabilita os campos ao iniciar a janela
         desabilitaCampos();
     }
@@ -645,8 +651,7 @@ public class JFCliente extends javax.swing.JFrame {
         });
     }    
 
-
-    IServiceCliente service = new ServiceCliente();
+    IServiceCliente service;    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAlterar;

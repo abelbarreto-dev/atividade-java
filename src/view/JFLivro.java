@@ -27,6 +27,12 @@ public class JFLivro extends javax.swing.JFrame {
      * Creates new form Cliente
      */
     public JFLivro() {
+        try {
+            service = new ServiceLivro();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
         initComponents();
         
         // Desabilita os campos ao iniciar a janela
@@ -608,7 +614,7 @@ public class JFLivro extends javax.swing.JFrame {
         });
     }
 
-    IServiceLivro service = new ServiceLivro();
+    IServiceLivro service;
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

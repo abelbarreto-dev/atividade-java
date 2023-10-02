@@ -19,8 +19,7 @@ public class Cliente {
         this.fone = fone;
     }
     
-     public Cliente() {
-    }  
+    public Cliente() {}
 
     public int getId() {
         return id;

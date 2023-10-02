@@ -28,6 +28,13 @@ public class JFMulta extends javax.swing.JFrame {
      * Creates new form Cliente
      */
     public JFMulta() {
+        try {
+            service = new ServiceMulta();
+            serviceCliente = new ServiceCliente();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
         initComponents();
         
         // Desabilita os campos ao iniciar a janela
@@ -681,8 +688,8 @@ public class JFMulta extends javax.swing.JFrame {
         jT1IdCliente.setText(id);
     }
 
-    private IServiceMulta service = new ServiceMulta();
-    private IServiceCliente serviceCliente = new ServiceCliente();
+    private IServiceMulta service;
+    private IServiceCliente serviceCliente;
     
     /* <-OUTROS---- */
      
