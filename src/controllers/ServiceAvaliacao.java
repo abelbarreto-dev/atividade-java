@@ -39,8 +39,29 @@ public class ServiceAvaliacao implements IServiceAvaliacao {
     }
 
     @Override
+    public void altera(AvaliacaoLivro avl) throws SQLException {
+        if (!this.verificaDados(avl)) {
+            throw new SQLException("Erro ao alterar livro.");
+        }
+
+        this.daoAvaliacao.altera(avl);
+    }
+
+    @Override
     public void remove(int id) throws SQLException {
         this.daoAvaliacao.remove(id);
+    }
+
+    private boolean verificaDados(AvaliacaoLivro avl) {
+        if (
+            avl.getIdCliente() <= 0 ||
+            avl.getIdLivro() == 0 ||
+            avl.getComentario().equals("") ||
+            avl.getDataAvaliacao().equals("")
+        ) {
+            return false;
+        }
+        return true;
     }
 
 }

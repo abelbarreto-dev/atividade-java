@@ -71,19 +71,19 @@ public class AvaliacaoEstrelas implements AvaliacaoLivro {
     public void avaliar() {
         switch(comentario) {
             case "1":
-                this.comentario = "Péssimo";
+                this.comentario = "★ - Péssimo";
                 break;
             case "2":
-                this.comentario = "Ruim";
+                this.comentario = "★★ - Ruim";
                 break;
             case "3":
-                this.comentario = "Regular";
+                this.comentario = "★★★ - Regular";
                 break;
             case "4":
-                this.comentario = "Bom";
+                this.comentario = "★★★★ - Bom";
                 break;
             case "5":
-                this.comentario = "Excelente";
+                this.comentario = "★★★★★ - Excelente";
                 break;
         }
     }

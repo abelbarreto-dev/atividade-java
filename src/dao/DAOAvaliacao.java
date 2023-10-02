@@ -20,15 +20,15 @@ public class DAOAvaliacao implements IDAOAvaliacao {
     }
      
     @Override
-    public void adicionaAvaliacao(AvaliacaoLivro e) throws SQLException {
+    public void adicionaAvaliacao(AvaliacaoLivro avl) throws SQLException {
         String sql = "INSERT INTO avaliacao(id_cliente, id_livro, comentario, data_avaliacao) VALUES(?, ?, ?, ?)";       
         PreparedStatement stmt;
         stmt = this.conexao.prepareStatement(sql);
                 
-        stmt.setString(1, String.valueOf(e.getIdCliente()));
-        stmt.setString(2, String.valueOf(e.getIdLivro()));
-        stmt.setString(3, String.valueOf(e.getComentario()));
-        stmt.setString(4, e.getDataAvaliacao());
+        stmt.setString(1, String.valueOf(avl.getIdCliente()));
+        stmt.setString(2, String.valueOf(avl.getIdLivro()));
+        stmt.setString(3, avl.getComentario());
+        stmt.setString(4, avl.getDataAvaliacao());
         
         stmt.execute();
         stmt.close();
@@ -108,6 +108,29 @@ public class DAOAvaliacao implements IDAOAvaliacao {
             if (rs != null) {rs.close();}
         }
         return lista;            
+    }
+
+    @Override
+    public void altera(AvaliacaoLivro avl) throws SQLException {
+        PreparedStatement stmt = null;
+
+        String sql = "UPDATE avaliacao SET comentario=?, data_avaliacao=?,"
+                + " WHERE avaliacao.id=?";
+        
+        try {
+            stmt = this.conexao.prepareStatement(sql);
+            
+            stmt.setString(1, avl.getComentario());
+            stmt.setString(2, avl.getDataAvaliacao());
+            stmt.setInt(3, avl.getIdAvaliacao());
+            
+            stmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+        if (stmt != null) {stmt.close();}} catch (SQLException e) {System.out.println(e.getMessage());}
+        }
     }
     
     @Override

@@ -68,6 +68,8 @@ public class AvaliacaoTexto implements AvaliacaoLivro {
     }
 
     @Override
-    public void avaliar() {}
+    public void avaliar() {
+        setComentario("Opinião pessoal: " + getComentario());
+    }
 
 }
