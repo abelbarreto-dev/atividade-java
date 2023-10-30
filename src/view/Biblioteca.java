@@ -15,6 +15,7 @@ import dao.decorators.NumPaginasLivroDecorator;
 import factories.FabricaAvaliacao;
 import factories.FabricaAvaliacaoEstrelas;
 import factories.FabricaAvaliacaoTexto;
+import model.AdapterDigitalizador;
 import model.BrochuraComOrelha;
 import model.Ebook;
 import model.EspiralComAcetato;
@@ -88,7 +89,6 @@ public class Biblioteca {
 
         // ================      BRIDGE      ===============
         
-        // Instanciando novo livro
         Livro livroComp = new Livro(11, "Livro de Computação", "Marcos", 2019, "Disponível");
         
         // Uso do padrão bridge para brochura com orelha
@@ -98,6 +98,16 @@ public class Biblioteca {
         // Uso do padrão bridge para espiral com acetato
         FormatoLivro espiralComp = new EspiralComAcetato(livroComp);
         System.out.println(espiralComp.obterInfo());
+
+        // ================     ADAPTER     ================
+
+        Livro livroIng = new Livro(12, "Livro de Inglês", "Márcio", 2010, "Disponível");
+        
+        // Uso do padrão adapter
+        Ebook adaptadorIng = new AdapterDigitalizador(livroIng);
+        adaptadorIng.abrirEbook();
+        adaptadorIng.lerEbook();
+        adaptadorIng.fecharEbook();
 
     }
     

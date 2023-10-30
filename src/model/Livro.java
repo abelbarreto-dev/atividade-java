@@ -83,5 +83,18 @@ public class Livro {
 
     public void setDisponibilidade(String disponibilidade) {
         this.disponibilidade = disponibilidade;
-    }    
+    }
+
+    public void abrirLivro() {
+        System.out.println("Abrindo livro físico " + this.exemplar);
+    }
+
+    public void lerLivro() {
+        System.out.println("Folheando livro...");
+    }
+
+    public void fecharLivro() {
+        System.out.println("Fechando livro físico " + this.exemplar);
+    }
+
 }

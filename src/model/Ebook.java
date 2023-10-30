@@ -1,12 +1,15 @@
 package model;
 
 public class Ebook {
+
     private int id;
     private String titulo;
     private String autor;
     private String genero;
     private int numeroPaginas;
     private int ano;
+
+    public Ebook() {};
 
     private Ebook(int id, String titulo, String autor, int numeroPaginas, String genero, int ano) {
         this.id = id;
@@ -82,4 +85,17 @@ public class Ebook {
             return new Ebook(id, titulo, autor, numeroPaginas, genero, ano);
         }
     }
+
+    public void abrirEbook() {
+        System.out.println("Executando arquivo do ebook " + this.titulo);
+    }
+
+    public void lerEbook() {
+        System.out.println("Lendo ebook...");
+    }
+
+    public void fecharEbook() {
+        System.out.println("Fechando arquivo do ebook " + this.titulo);
+    }
+
 }
