@@ -10,10 +10,17 @@ import java.text.ParseException;
 
 import controllers.ServiceAvaliacao;
 import controllers.ServiceEbook;
+import dao.decorators.GeneroLivroDecorator;
+import dao.decorators.NumPaginasLivroDecorator;
 import factories.FabricaAvaliacao;
 import factories.FabricaAvaliacaoEstrelas;
 import factories.FabricaAvaliacaoTexto;
+import model.BrochuraComOrelha;
 import model.Ebook;
+import model.EspiralComAcetato;
+import model.FormatoLivro;
+import model.Livro;
+import model.LivroDecorator;
 /**
  *
  * @author paulojp
@@ -54,10 +61,10 @@ public class Biblioteca {
             .ano(2023)
             .build();
 
-        Ebook livroPortugues = new Ebook.EbookBuilder(1)
-            .titulo("Livro de História")
-            .autor("Mateus")
-            .ano(2023)
+        Ebook livroPortugues = new Ebook.EbookBuilder(2)
+            .titulo("Livro de Português")
+            .autor("Diego")
+            .ano(2021)
             .build();
 
         serviceEbk.adicionaEbook(livroHistoria);
@@ -65,7 +72,33 @@ public class Biblioteca {
 
         JFPrincipal principal = new JFPrincipal();
         principal.setVisible(true);
+
+        // ================    DECORATOR    ================
         
+        // Instanciando um novo livro
+        Livro livroGeo = new Livro(10, "Livro de Geografia", "George", 2022, "Disponível");
+
+        // Uso do decorador de numeração
+        LivroDecorator livroComNumeracao = new NumPaginasLivroDecorator(livroGeo, 250);
+        livroComNumeracao.exibirDescricao();
+        
+        // Uso do decorador de gênero
+        LivroDecorator livroComGenero = new GeneroLivroDecorator(livroGeo, "Didático");
+        livroComGenero.exibirDescricao();
+
+        // ================      BRIDGE      ===============
+        
+        // Instanciando novo livro
+        Livro livroComp = new Livro(11, "Livro de Computação", "Marcos", 2019, "Disponível");
+        
+        // Uso do padrão bridge para brochura com orelha
+        FormatoLivro brochuraComp = new BrochuraComOrelha(livroComp);
+        System.out.println(brochuraComp.obterInfo());
+
+        // Uso do padrão bridge para espiral com acetato
+        FormatoLivro espiralComp = new EspiralComAcetato(livroComp);
+        System.out.println(espiralComp.obterInfo());
+
     }
     
 }

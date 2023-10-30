@@ -27,9 +27,16 @@ public class Livro {
         this.disponibilidade = disponibilidade;
     }
 
-    public Livro() {
-    }   
-    
+    public Livro(int id, String exemplar, String autor, int ano, String disponibilidade) {
+        this.id = id;
+        this.exemplar = exemplar;
+        this.autor = autor;
+        this.ano = ((short)ano);
+        this.disponibilidade = disponibilidade;
+    }
+
+    public Livro() {}
+
     public int getId() {
         return id;
     }
