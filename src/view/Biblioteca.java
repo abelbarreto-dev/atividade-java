@@ -135,7 +135,7 @@ public class Biblioteca {
 
         System.out.println("\n--- --- --- --- --- --- --- --- --- ---\n");
 
-        EbookMobiRenderer mobiRenderer = new EbookMobiRenderer();
+        EbookRenderer mobiRenderer = new EbookMobiRenderer();
         mobiRenderer.renderizarEbook(programacao);
 
         System.out.println("\n--- --- --- --- --- --- --- --- --- ---\n");
