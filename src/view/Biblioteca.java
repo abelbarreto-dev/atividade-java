@@ -8,20 +8,24 @@ package view;
 import java.sql.SQLException;
 import java.text.ParseException;
 
-import controllers.ServiceAvaliacao;
-import controllers.ServiceEbook;
-import dao.decorators.GeneroLivroDecorator;
-import dao.decorators.NumPaginasLivroDecorator;
-import factories.FabricaAvaliacao;
-import factories.FabricaAvaliacaoEstrelas;
-import factories.FabricaAvaliacaoTexto;
-import model.AdapterDigitalizador;
-import model.BrochuraComOrelha;
+// import controllers.ServiceAvaliacao;
+// import controllers.ServiceEbook;
+// import dao.decorators.GeneroLivroDecorator;
+// import dao.decorators.NumPaginasLivroDecorator;
+// import factories.FabricaAvaliacao;
+// import factories.FabricaAvaliacaoEstrelas;
+// import factories.FabricaAvaliacaoTexto;
+// import model.AdapterDigitalizador;
+// import model.BrochuraComOrelha;
 import model.Ebook;
-import model.EspiralComAcetato;
-import model.FormatoLivro;
-import model.Livro;
-import model.LivroDecorator;
+import model.EbookEpubRenderer;
+import model.EbookMobiRenderer;
+import model.EbookPdfRenderer;
+import model.EbookRenderer;
+// import model.EspiralComAcetato;
+// import model.FormatoLivro;
+// import model.Livro;
+// import model.LivroDecorator;
 /**
  *
  * @author paulojp
@@ -34,6 +38,8 @@ public class Biblioteca {
      * @throws java.text.ParseException
      */
     public static void main(String[] args) throws SQLException, ParseException {
+
+        /*
 
         // Services
         ServiceAvaliacao serviceAvl;
@@ -108,6 +114,31 @@ public class Biblioteca {
         adaptadorIng.abrirEbook();
         adaptadorIng.lerEbook();
         adaptadorIng.fecharEbook();
+
+        */
+
+        // ================ TEMPLATE METHOD ================
+
+        Ebook programacao = new Ebook(20, "Compreendendo Padrões", "Rafael", "Didático", 250, 2023);
+
+        // Uso do padrão para renderizar vários formatos
+
+        System.out.println("\n--- --- --- --- --- --- --- --- --- ---\n");
+
+        EbookRenderer pdfRenderer = new EbookPdfRenderer();
+        pdfRenderer.renderizarEbook(programacao);
+
+        System.out.println("\n--- --- --- --- --- --- --- --- --- ---\n");
+
+        EbookRenderer epubRenderer = new EbookEpubRenderer();
+        epubRenderer.renderizarEbook(programacao);
+
+        System.out.println("\n--- --- --- --- --- --- --- --- --- ---\n");
+
+        EbookMobiRenderer mobiRenderer = new EbookMobiRenderer();
+        mobiRenderer.renderizarEbook(programacao);
+
+        System.out.println("\n--- --- --- --- --- --- --- --- --- ---\n");
 
     }
     

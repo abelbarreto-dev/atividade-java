@@ -11,6 +11,15 @@ public class Ebook {
 
     public Ebook() {};
 
+    public Ebook(int id, String titulo, String autor, String genero, int numeroPaginas, int ano) {
+        this.id = id;
+        this.titulo = titulo;
+        this.autor = autor;
+        this.genero = genero;
+        this.numeroPaginas = numeroPaginas;
+        this.ano = ano;
+    }
+
     private Ebook(int id, String titulo, String autor, int numeroPaginas, String genero, int ano) {
         this.id = id;
         this.titulo = titulo;
